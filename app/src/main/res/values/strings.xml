@@ -16,6 +16,10 @@
     <string name="alert_response_yes">Yes</string>
     <string name="alert_response_no">No</string>
 
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+
+
     <!-- New Event Activity Strings -->
     <string name="label_newevent_title">New Event</string>
     <string name="label_newevent_enterSportType">Sport Type :</string>

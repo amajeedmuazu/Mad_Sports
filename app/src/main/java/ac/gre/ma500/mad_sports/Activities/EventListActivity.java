@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ActionMode;
-import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,6 +22,8 @@ import ac.gre.ma500.mad_sports.R;
 import ac.gre.ma500.mad_sports.models.AppDbDefination;
 import ac.gre.ma500.mad_sports.models.AppRepository;
 import ac.gre.ma500.mad_sports.models.SportEvent;
+
+//import android.widget
 
 public class EventListActivity extends Activity implements ActionMode.Callback,
         AbsListView.MultiChoiceModeListener, ActionBar.OnNavigationListener{
@@ -46,7 +47,7 @@ public class EventListActivity extends Activity implements ActionMode.Callback,
     ActionBar actionBar;
     ListView eventListView;
     EventList_Adapter eventListAdapter;
-    ActionDrawer drawer;
+    //DrawerLayout drawer;
     //End VIEWS------------------------------------
 
 
