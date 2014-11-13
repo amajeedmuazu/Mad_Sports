@@ -10,7 +10,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
-import java.util.Observable;
 
 public class AppRepository {
 
@@ -66,9 +65,9 @@ public class AppRepository {
         String whereClause = "";
         for (int i = 0; i < sportNames.length; i++) {
             if(i ==0)
-                whereClause += AppDbDefination.SportEventTable.COLUMN_NAME_SPORT_NAME + " = ?";
+                whereClause += AppDbDefination.SportEventTable.COLUMN_SPORT_NAME + " = ?";
             else
-                whereClause += " OR " + AppDbDefination.SportEventTable.COLUMN_NAME_SPORT_NAME + " = ?";
+                whereClause += " OR " + AppDbDefination.SportEventTable.COLUMN_SPORT_NAME + " = ?";
         }
         Cursor sportEventsCursor = db.query(AppDbDefination.SportEventTable.TABLE_NAME,
                 null,whereClause,sportNames,null,null,null);
@@ -105,7 +104,7 @@ public class AppRepository {
     {
         try {
             ContentValues cv = se.getContentValues();
-            cv.remove(AppDbDefination.SportEventTable.COLUMN_NAME_ID);
+            cv.remove(AppDbDefination.SportEventTable.COLUMN_ID);
             se._id = (int)
 
             db.insertOrThrow(AppDbDefination.SportEventTable.TABLE_NAME,
@@ -123,7 +122,7 @@ public class AppRepository {
     public boolean DeleteEvent(int id)
     {
         try {
-            String where = AppDbDefination.SportEventTable.COLUMN_NAME_ID + " LIKE ?";
+            String where = AppDbDefination.SportEventTable.COLUMN_ID + " LIKE ?";
             String[] args = {String.valueOf(id)};
 
             db.delete(AppDbDefination.SportEventTable.TABLE_NAME, where, args);

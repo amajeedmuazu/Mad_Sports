@@ -27,10 +27,10 @@ public final class AppDbDefination {
     public interface  _BaseTable {
 
         //Primary Key Column for All Tables
-        public static final String COLUMN_NAME_ID = "id";
+        public static final String COLUMN_ID = "id";
 
         //Timestamp for when each row is updated (Used for synchronization)
-        public static final String COLUMN_NAME_ENTRY_TIMESTAMP = "update_timestamp";
+        public static final String COLUMN_ENTRY_TIMESTAMP = "update_timestamp";
 
 
     }
@@ -38,27 +38,27 @@ public final class AppDbDefination {
     //Events Table
     public static abstract class SportEventTable implements  _BaseTable {
         public static final String TABLE_NAME = "sport_event";
-        public static final String COLUMN_NAME_SPORT_NAME = "sport_name";
-        public static final String COLUMN_NAME_COMPETITION = "competition";
-        public static final String COLUMN_NAME_START_DATE = "start_date";
-        public static final String COLUMN_NAME_START_TIME = "start_time";
-        public static final String COLUMN_NAME_LOCATION = "location";
-        public static final String COLUMN_NAME_TEAM_HOME = "team_home";
-        public static final String COLUMN_NAME_TEAM_AWAY = "team_away";
-        public static final String COLUMN_NAME_REFEREE = "referee";
+        public static final String COLUMN_SPORT_NAME = "sport_name";
+        public static final String COLUMN_COMPETITION = "competition";
+        public static final String COLUMN_START_DATE = "start_date";
+        public static final String COLUMN_START_TIME = "start_time";
+        public static final String COLUMN_LOCATION = "location";
+        public static final String COLUMN_TEAM_HOME = "team_home";
+        public static final String COLUMN_TEAM_AWAY = "team_away";
+        public static final String COLUMN_REFEREE = "referee";
 
         public static final String CREATE_TABLE_SQL =
                     "CREATE TABLE " + TABLE_NAME + " (" +
-                            COLUMN_NAME_ID + TYPE_INT + AUTO_PRIMARY_KEY  + COMMA +
-                            COLUMN_NAME_SPORT_NAME + TYPE_STRING + COMMA +
-                            COLUMN_NAME_COMPETITION + TYPE_STRING + COMMA +
-                            COLUMN_NAME_START_DATE + TYPE_DATE + COMMA +
-                            COLUMN_NAME_START_TIME + TYPE_TIME + COMMA +
-                            COLUMN_NAME_LOCATION + TYPE_STRING + COMMA +
-                            COLUMN_NAME_TEAM_HOME + TYPE_STRING + COMMA +
-                            COLUMN_NAME_TEAM_AWAY + TYPE_STRING + COMMA +
-                            COLUMN_NAME_REFEREE + TYPE_STRING + COMMA +
-                            COLUMN_NAME_ENTRY_TIMESTAMP + TYPE_TIMESTAMP + ")";
+                            COLUMN_ID + TYPE_INT + AUTO_PRIMARY_KEY  + COMMA +
+                            COLUMN_SPORT_NAME + TYPE_STRING + COMMA +
+                            COLUMN_COMPETITION + TYPE_STRING + COMMA +
+                            COLUMN_START_DATE + TYPE_DATE + COMMA +
+                            COLUMN_START_TIME + TYPE_TIME + COMMA +
+                            COLUMN_LOCATION + TYPE_STRING + COMMA +
+                            COLUMN_TEAM_HOME + TYPE_STRING + COMMA +
+                            COLUMN_TEAM_AWAY + TYPE_STRING + COMMA +
+                            COLUMN_REFEREE + TYPE_STRING + COMMA +
+                            COLUMN_ENTRY_TIMESTAMP + TYPE_TIMESTAMP + ")";
 
         public static final String DELETE_TABLE_SQL = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
@@ -68,24 +68,24 @@ public final class AppDbDefination {
     //Event's Actions Table
     public static abstract class EventActionTable implements _BaseTable {
         public static final String TABLE_NAME = "event_action";
-        public static final String COLUMN_NAME_SPORT_EVENT_ID = "sport_event_id";
-        public static final String COLUMN_NAME_ACTION_TYPE = "action_type";
-        public static final String COLUMN_NAME_DATE = "action_date";
-        public static final String COLUMN_NAME_TIME = "action_time";
-        public static final String COLUMN_NAME_ACTION_BY = "by";
-        public static final String COLUMN_NAME_ACTION_ON = "on";
-        public static final String COLUMN_NAME_COMMENT = "comment";
+        public static final String COLUMN_SPORT_EVENT_ID = "sport_event_id";
+        public static final String COLUMN_ACTION_TYPE = "action_type";
+        public static final String COLUMN_DATE = "action_date";
+        public static final String COLUMN_TIME = "action_time";
+        public static final String COLUMN_ACTION_BY = "by";
+        public static final String COLUMN_ACTION_ON = "on";
+        public static final String COLUMN_COMMENT = "comment";
 
          public static final String CREATE_TABLE_SQL =
                  "CREATE TABLE " + TABLE_NAME + " (" +
-                         COLUMN_NAME_ID + TYPE_INT + AUTO_PRIMARY_KEY + COMMA +
-                         COLUMN_NAME_SPORT_EVENT_ID + TYPE_STRING + COMMA +
-                         COLUMN_NAME_ACTION_TYPE + TYPE_STRING + NOT_NULL + COMMA +
-                         COLUMN_NAME_DATE + TYPE_DATE + NOT_NULL + COMMA +
-                         COLUMN_NAME_TIME + TYPE_TIME + NOT_NULL + COMMA +
-                         COLUMN_NAME_ACTION_BY + TYPE_STRING + COMMA +
-                         COLUMN_NAME_ACTION_ON + TYPE_STRING + COMMA +
-                         COLUMN_NAME_COMMENT + TYPE_STRING + COMMA + ")";
+                         COLUMN_ID + TYPE_INT + AUTO_PRIMARY_KEY + COMMA +
+                         COLUMN_SPORT_EVENT_ID + TYPE_STRING + COMMA +
+                         COLUMN_ACTION_TYPE + TYPE_STRING + NOT_NULL + COMMA +
+                         COLUMN_DATE + TYPE_DATE + NOT_NULL + COMMA +
+                         COLUMN_TIME + TYPE_TIME + NOT_NULL + COMMA +
+                         COLUMN_ACTION_BY + TYPE_STRING + COMMA +
+                         COLUMN_ACTION_ON + TYPE_STRING + COMMA +
+                         COLUMN_COMMENT + TYPE_STRING + COMMA + ")";
 
         public static final String DELETE_TABLE_SQL = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }

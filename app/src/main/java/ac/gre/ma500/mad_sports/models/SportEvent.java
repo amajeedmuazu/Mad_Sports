@@ -30,35 +30,35 @@ public class SportEvent {
 
     public SportEvent(ContentValues cv)
     {
-        _id = cv.getAsInteger(AppDbDefination.SportEventTable.COLUMN_NAME_ID);
-        sportName = cv.getAsString(AppDbDefination.SportEventTable.COLUMN_NAME_SPORT_NAME);
-        competition = cv.getAsString(AppDbDefination.SportEventTable.COLUMN_NAME_COMPETITION);
-        location = cv.getAsString(AppDbDefination.SportEventTable.COLUMN_NAME_LOCATION);
-        teamHome = cv.getAsString(AppDbDefination.SportEventTable.COLUMN_NAME_TEAM_HOME);
-        teamAway = cv.getAsString(AppDbDefination.SportEventTable.COLUMN_NAME_TEAM_AWAY);
-        referee = cv.getAsString(AppDbDefination.SportEventTable.COLUMN_NAME_REFEREE);
+        _id = cv.getAsInteger(AppDbDefination.SportEventTable.COLUMN_ID);
+        sportName = cv.getAsString(AppDbDefination.SportEventTable.COLUMN_SPORT_NAME);
+        competition = cv.getAsString(AppDbDefination.SportEventTable.COLUMN_COMPETITION);
+        location = cv.getAsString(AppDbDefination.SportEventTable.COLUMN_LOCATION);
+        teamHome = cv.getAsString(AppDbDefination.SportEventTable.COLUMN_TEAM_HOME);
+        teamAway = cv.getAsString(AppDbDefination.SportEventTable.COLUMN_TEAM_AWAY);
+        referee = cv.getAsString(AppDbDefination.SportEventTable.COLUMN_REFEREE);
         startDate = AppUtility.dateFromString(
-                cv.getAsString(AppDbDefination.SportEventTable.COLUMN_NAME_START_DATE));
+                cv.getAsString(AppDbDefination.SportEventTable.COLUMN_START_DATE));
 
         startTime= AppUtility.timeFromString(
-                cv.getAsString(AppDbDefination.SportEventTable.COLUMN_NAME_START_TIME));
+                cv.getAsString(AppDbDefination.SportEventTable.COLUMN_START_TIME));
 
     }
 
     public ContentValues getContentValues()
     {
         ContentValues values = new ContentValues();
-        values.put(AppDbDefination.SportEventTable.COLUMN_NAME_ID, _id);
-        values.put(AppDbDefination.SportEventTable.COLUMN_NAME_SPORT_NAME, sportName);
-        values.put(AppDbDefination.SportEventTable.COLUMN_NAME_COMPETITION, competition);
-        values.put(AppDbDefination.SportEventTable.COLUMN_NAME_LOCATION, location);
-        values.put(AppDbDefination.SportEventTable.COLUMN_NAME_TEAM_HOME, teamHome);
-        values.put(AppDbDefination.SportEventTable.COLUMN_NAME_TEAM_AWAY, teamAway);
-        values.put(AppDbDefination.SportEventTable.COLUMN_NAME_REFEREE, referee);
-        values.put(AppDbDefination.SportEventTable.COLUMN_NAME_START_DATE, startDate.toString());
-        values.put(AppDbDefination.SportEventTable.COLUMN_NAME_START_TIME, startTime.toString());
+        values.put(AppDbDefination.SportEventTable.COLUMN_ID, _id);
+        values.put(AppDbDefination.SportEventTable.COLUMN_SPORT_NAME, sportName);
+        values.put(AppDbDefination.SportEventTable.COLUMN_COMPETITION, competition);
+        values.put(AppDbDefination.SportEventTable.COLUMN_LOCATION, location);
+        values.put(AppDbDefination.SportEventTable.COLUMN_TEAM_HOME, teamHome);
+        values.put(AppDbDefination.SportEventTable.COLUMN_TEAM_AWAY, teamAway);
+        values.put(AppDbDefination.SportEventTable.COLUMN_REFEREE, referee);
+        values.put(AppDbDefination.SportEventTable.COLUMN_START_DATE, startDate.toString());
+        values.put(AppDbDefination.SportEventTable.COLUMN_START_TIME, startTime.toString());
 
-        values.put(AppDbDefination.SportEventTable.COLUMN_NAME_ENTRY_TIMESTAMP,
+        values.put(AppDbDefination.SportEventTable.COLUMN_ENTRY_TIMESTAMP,
                 new Date(Calendar.getInstance().getTimeInMillis()).toString());
 
         return  values;
