@@ -1,5 +1,7 @@
 package ac.gre.ma500.mad_sports.models;
 
+import java.util.ArrayList;
+
 /**
  * Created by Majeed on 09/11/14.
  */
@@ -98,11 +100,16 @@ public final class AppDbDefination {
             "Hockey",
             "Handball"};
 
-    public static final String[] SPORTS_FILTER = new String[]{"All",
-            SPORTS_TYPE[0],
-            SPORTS_TYPE[1],
-            SPORTS_TYPE[2],
-            SPORTS_TYPE[3]};
+    public static final String[] SPORTS_TYPE_FILTER = GetSportsType();
+    public static String[] GetSportsType()
+    {
+        ArrayList<String> filters = new ArrayList<String>();
+        filters.add("All Sports");
+        for (int i = 0; i < SPORTS_TYPE.length; i++) {
+            filters.add(SPORTS_TYPE[i]);
+        }
+        return  filters.toArray(new String[SPORTS_TYPE.length+1]);
+    }
 
     //SQL COMMANDS -----------------------------------------------------------------
 

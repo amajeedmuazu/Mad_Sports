@@ -6,9 +6,6 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.Calendar;
 
-/**
- * Created by Majeed on 02/11/14.
- */
 public class SportEvent {
     public Integer _id;
     public String sportName, competition, location;
@@ -18,12 +15,12 @@ public class SportEvent {
     public SportEvent()
     {
         _id = 0;
-        sportName = "";
-        competition = "";
-        location = "";
-        teamHome = "";
-        teamAway = "";
-        referee = "";
+        sportName = " ";
+        competition = " ";
+        location = " ";
+        teamHome = " ";
+        teamAway = " ";
+        referee = " ";
         startDate = new Date(Calendar.getInstance().getTimeInMillis());
         startTime = new Time(Calendar.getInstance().getTimeInMillis());
     }

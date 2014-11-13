@@ -24,7 +24,7 @@
     <RelativeLayout
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-        android:layout_toRightOf="@+id/event_listItem_selectItemView">
+    android:layout_toRightOf="@+id/event_listItem_selectItemView">
     <LinearLayout
         android:layout_width="40dp"
         android:layout_height="wrap_content"
@@ -41,15 +41,17 @@
             android:layout_marginTop="7dp"
             android:layout_marginRight="7dp"
             android:layout_marginLeft="7dp"
-            android:src="@drawable/ic_launcher" />
+            android:src="@drawable/ic_launcher"
+            android:alpha="0.3"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_marginTop="-2dp"
-            android:textColor="@android:color/holo_blue_light"
+            android:textColor="#FFFFFF"
             android:text="22:00"
+            android:alpha="0.8"
             android:id="@+id/listItem_eventTime" />
         <!--TextView
             android:layout_width="fill_parent"
@@ -65,38 +67,83 @@
         </LinearLayout>
 
 
-    <LinearLayout
-        android:layout_width="40dp"
+        <LinearLayout
+        android:layout_width="20dp"
         android:layout_height="wrap_content"
         android:id="@+id/event_listItem_rightView"
         android:layout_alignParentRight="true"
-        android:orientation="vertical">
+        android:orientation="horizontal">
+
+
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginTop="18dp"
+                android:id="@+id/imageView_eventOpenImage"
+                android:src="@drawable/ic_action_chevron_right" />
 
         </LinearLayout>
 
 
-    <LinearLayout
+
+
+
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_toRightOf="@id/event_listItem_leftView"
         android:layout_toLeftOf="@id/event_listItem_rightView"
         android:id="@+id/event_listItem_centerView"
         android:paddingBottom="8dp"
-        android:orientation="vertical">
-        <TextView
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Large Text"
+                android:id="@+id/listItem_eventTeamHome"
+                android:paddingTop="3dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Large Text"
+                android:layout_marginTop="-5dp"
+                android:id="@+id/listItem_eventTeamAway" />
+            </LinearLayout>
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Large Text"
-            android:id="@+id/listItem_eventTeamHome"
-            android:paddingTop="3dp" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Large Text"
-            android:layout_marginTop="-5dp"
-            android:id="@+id/listItem_eventTeamAway" />
-    </LinearLayout>
+            android:id="@+id/event_listItem_scoresView"
+            android:layout_alignParentRight="true"
+            android:orientation="vertical"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Large Text"
+                android:id="@+id/listItem_eventTeamHomeScore"
+                android:textColor="#181818"
+                android:paddingTop="3dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Large Text"
+                android:layout_marginTop="-5dp"
+                android:textColor="#181818"
+                android:id="@+id/listItem_eventTeamAwayScore"
+                />
+        </LinearLayout>
+    </RelativeLayout>
 </RelativeLayout>
 </RelativeLayout>

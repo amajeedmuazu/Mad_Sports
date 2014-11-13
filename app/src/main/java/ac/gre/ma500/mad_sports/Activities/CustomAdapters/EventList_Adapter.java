@@ -38,8 +38,12 @@ public class EventList_Adapter extends ArrayAdapter<SportEvent> {
 
         ((TextView)rowView.findViewById(R.id.listItem_eventTeamHome))
                 .setText(sp.teamHome);
+        ((TextView)rowView.findViewById(R.id.listItem_eventTeamHomeScore))
+                .setText("0");
         ((TextView)rowView.findViewById(R.id.listItem_eventTeamAway))
                 .setText(sp.teamAway);
+        ((TextView)rowView.findViewById(R.id.listItem_eventTeamAwayScore))
+                .setText("0");
 
         ((TextView)rowView.findViewById(R.id.listItem_eventTime))
                 .setText(sp.startTime.toString().substring(0,5));

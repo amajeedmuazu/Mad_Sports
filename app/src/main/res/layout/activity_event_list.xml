@@ -5,7 +5,7 @@
     android:paddingRight="0dp"
     android:paddingTop="0dp"
     android:paddingBottom="0dp"
-    android:background="@android:color/background_dark"
+    android:background="#0A0A0A"
     tools:context="ac.gre.ma500.mad_sports.Activities.EventListActivity">
 
 
@@ -18,7 +18,8 @@
         <ListView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:id="@+id/listView_events"/>
+            android:id="@+id/listView_events"
+            android:paddingTop="2dp"/>
         </ScrollView>
 
 

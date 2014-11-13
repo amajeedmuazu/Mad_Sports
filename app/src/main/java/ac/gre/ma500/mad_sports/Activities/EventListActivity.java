@@ -8,7 +8,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -56,12 +55,19 @@ public class EventListActivity extends Activity {
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         ArrayAdapter<String> actionBarFilterAdapter = new ArrayAdapter<String>(getBaseContext(),
-                R.layout.navigation_spinner_layout,R.id.navigation_title, AppDbDefination.SPORTS_FILTER);
+                R.layout.navigation_spinner_layout,R.id.navigation_title, AppDbDefination.SPORTS_TYPE_FILTER);
 
         ActionBar.OnNavigationListener navigationListener = new ActionBar.OnNavigationListener() {
 
             @Override
             public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+               if(itemPosition == 0)
+                    repo.LoadData();
+                else
+                   repo.loadEventsWithSportsNameFilter(new String[]{
+                           AppDbDefination.SPORTS_TYPE_FILTER[itemPosition]});
+
+                eventListAdapter.notifyDataSetChanged();
                 return true;
             }
         };
@@ -144,6 +150,6 @@ public class EventListActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         this.repo.LoadData();
-        this.bindViews();
+        eventListAdapter.notifyDataSetChanged();
     }
 }

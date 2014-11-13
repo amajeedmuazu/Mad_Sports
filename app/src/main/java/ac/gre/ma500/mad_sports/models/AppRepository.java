@@ -20,6 +20,7 @@ public class AppRepository {
     {
         helper = new AppDbHelper(context);
         db = helper.getWritableDatabase();
+        _sportEvents = new ArrayList<SportEvent>();
 
 
     }
@@ -43,7 +44,7 @@ public class AppRepository {
 
     public void LoadData()
     {
-        this._sportEvents = new ArrayList<SportEvent>();
+        this._sportEvents.clear();
         Cursor sportEventsCursor = db.query(AppDbDefination.SportEventTable.TABLE_NAME,
                 null,null,null,null,null,null);
 
@@ -59,7 +60,7 @@ public class AppRepository {
 
     public void loadEventsWithSportsNameFilter(String[] sportNames)
     {
-        this._sportEvents = new ArrayList<SportEvent>();
+        this._sportEvents.clear();
 
 
         String whereClause = "";
