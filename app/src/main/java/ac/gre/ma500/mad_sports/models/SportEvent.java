@@ -1,0 +1,70 @@
+package ac.gre.ma500.mad_sports.models;
+
+import android.content.ContentValues;
+
+import java.sql.Date;
+import java.sql.Time;
+import java.util.Calendar;
+
+/**
+ * Created by Majeed on 02/11/14.
+ */
+public class SportEvent {
+    public Integer _id;
+    public String sportName, competition, location;
+    public String teamHome, teamAway, referee;
+    public Date startDate; public Time startTime;
+
+    public SportEvent()
+    {
+        _id = 0;
+        sportName = "";
+        competition = "";
+        location = "";
+        teamHome = "";
+        teamAway = "";
+        referee = "";
+        startDate = new Date(Calendar.getInstance().getTimeInMillis());
+        startTime = new Time(Calendar.getInstance().getTimeInMillis());
+    }
+
+    public SportEvent(ContentValues cv)
+    {
+        _id = cv.getAsInteger(AppDbDefination.SportEventTable.COLUMN_NAME_ID);
+        sportName = cv.getAsString(AppDbDefination.SportEventTable.COLUMN_NAME_SPORT_NAME);
+        competition = cv.getAsString(AppDbDefination.SportEventTable.COLUMN_NAME_COMPETITION);
+        location = cv.getAsString(AppDbDefination.SportEventTable.COLUMN_NAME_LOCATION);
+        teamHome = cv.getAsString(AppDbDefination.SportEventTable.COLUMN_NAME_TEAM_HOME);
+        teamAway = cv.getAsString(AppDbDefination.SportEventTable.COLUMN_NAME_TEAM_AWAY);
+        referee = cv.getAsString(AppDbDefination.SportEventTable.COLUMN_NAME_REFEREE);
+        startDate = AppUtility.dateFromString(
+                cv.getAsString(AppDbDefination.SportEventTable.COLUMN_NAME_START_DATE));
+
+        startTime= AppUtility.timeFromString(
+                cv.getAsString(AppDbDefination.SportEventTable.COLUMN_NAME_START_TIME));
+
+    }
+
+    public ContentValues getContentValues()
+    {
+        ContentValues values = new ContentValues();
+        values.put(AppDbDefination.SportEventTable.COLUMN_NAME_ID, _id);
+        values.put(AppDbDefination.SportEventTable.COLUMN_NAME_SPORT_NAME, sportName);
+        values.put(AppDbDefination.SportEventTable.COLUMN_NAME_COMPETITION, competition);
+        values.put(AppDbDefination.SportEventTable.COLUMN_NAME_LOCATION, location);
+        values.put(AppDbDefination.SportEventTable.COLUMN_NAME_TEAM_HOME, teamHome);
+        values.put(AppDbDefination.SportEventTable.COLUMN_NAME_TEAM_AWAY, teamAway);
+        values.put(AppDbDefination.SportEventTable.COLUMN_NAME_REFEREE, referee);
+        values.put(AppDbDefination.SportEventTable.COLUMN_NAME_START_DATE, startDate.toString());
+        values.put(AppDbDefination.SportEventTable.COLUMN_NAME_START_TIME, startTime.toString());
+
+        values.put(AppDbDefination.SportEventTable.COLUMN_NAME_ENTRY_TIMESTAMP,
+                new Date(Calendar.getInstance().getTimeInMillis()).toString());
+
+        return  values;
+    }
+
+
+    public static boolean inSelectMode = false;
+    public boolean isSelected;
+}
