@@ -18,7 +18,9 @@
             android:scaleY="1.3"
             android:textColorHighlight="@android:color/holo_green_dark"
             android:textColor="@android:color/holo_green_dark"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="3dp"
+            android:alpha="0.7"/>
         </LinearLayout>
 
     <RelativeLayout
@@ -53,17 +55,6 @@
             android:text="22:00"
             android:alpha="0.8"
             android:id="@+id/listItem_eventTime" />
-        <!--TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:layout_marginTop="-4dp"
-            android:layout_marginRight="7dp"
-            android:layout_marginLeft="2dp"
-            android:textSize="7sp"
-            android:gravity="center"
-            android:text="Emirates"
-            android:id="@+id/listItem_eventLocation" /-->
         </LinearLayout>
 
 
