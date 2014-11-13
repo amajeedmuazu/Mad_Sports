@@ -21,13 +21,15 @@ public class EventList_Adapter extends ArrayAdapter<SportEvent> {
 
     private final Activity context;
     private final ArrayList<SportEvent> sportEvents;
+    private final ArrayList<Integer> selectedEvents;
 
-    public EventList_Adapter(Activity context, ArrayList<SportEvent> sportEvents) {
+    public EventList_Adapter(Activity context, ArrayList<SportEvent> sportEvents, ArrayList<Integer> selectedEvents) {
         super(context,R.layout.event_listview_item, sportEvents);
         // TODO Auto-generated constructor stub
 
-        this.context=context;
+        this.context = context;
         this.sportEvents = sportEvents;
+        this.selectedEvents = selectedEvents;
     }
 
     public View getView(int position,View view,ViewGroup parent) {
@@ -53,33 +55,41 @@ public class EventList_Adapter extends ArrayAdapter<SportEvent> {
 
         int icon = 0;
         if(sp.sportName.equalsIgnoreCase("football"))
-            icon = R.drawable.football;
+            icon = R.drawable.ic_football;
         else if (sp.sportName.equalsIgnoreCase("Basketball"))
-            icon = R.drawable.baseball;
+            icon = R.drawable.ic_basketball;
         else if (sp.sportName.equalsIgnoreCase("Hockey"))
-            icon = R.drawable.golf;
+            icon = R.drawable.ic_hockey;
         else if (sp.sportName.equalsIgnoreCase("Handball"))
-            icon = R.drawable.tennis;
+            icon = R.drawable.football;
 
         ((ImageView)rowView.findViewById(R.id.imageView_eventIcon))
                 .setImageResource(icon);
 
         if(SportEvent.inSelectMode)
         {
-            (rowView.findViewById(R.id.event_listItem_selectItemView))
+            (rowView.findViewById(R.id.event_listItem_checkbox))
                     .setVisibility(View.VISIBLE);
+            (rowView.findViewById(R.id.imageView_eventOpenImage))
+                    .setVisibility(View.GONE);
+
+
         }
         else
         {
-            (rowView.findViewById(R.id.event_listItem_selectItemView))
+            (rowView.findViewById(R.id.event_listItem_checkbox))
                     .setVisibility(View.GONE);
+            (rowView.findViewById(R.id.imageView_eventOpenImage))
+                    .setVisibility(View.VISIBLE);
+
         }
 
+        (rowView.findViewById(R.id.event_listItem_checkbox)).setTag(position);
 
-        //((CheckBox)rowView.findViewById(R.id.event_listItem_checkbox)).setTag(sp);
-        (rowView.findViewById(R.id.event_listItem_checkbox)).setTag(sp._id);
         ((CheckBox)rowView.findViewById(R.id.event_listItem_checkbox))
-                .setChecked(sp.isSelected);
+                .setChecked(selectedEvents.contains(position));
+
+
 
         return rowView;
 

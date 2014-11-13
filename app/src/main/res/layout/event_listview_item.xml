@@ -5,22 +5,10 @@
 
     <LinearLayout
         android:id="@+id/event_listItem_selectItemView"
-        android:layout_width="35dp"
+        android:layout_width="0dp"
         android:layout_height="fill_parent"
         android:orientation="vertical">
-        <CheckBox
-            android:id="@+id/event_listItem_checkbox"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:gravity="center"
-            android:onClick="selectEvent"
-            android:scaleX="1.3"
-            android:scaleY="1.3"
-            android:textColorHighlight="@android:color/holo_green_dark"
-            android:textColor="@android:color/holo_green_dark"
-            android:layout_marginTop="16dp"
-            android:layout_marginLeft="3dp"
-            android:alpha="0.7"/>
+
         </LinearLayout>
 
     <RelativeLayout
@@ -37,14 +25,14 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
             android:id="@+id/imageView_eventIcon"
             android:layout_marginTop="7dp"
-            android:layout_marginRight="7dp"
-            android:layout_marginLeft="7dp"
+            android:layout_marginRight="9dp"
+            android:layout_marginLeft="9dp"
             android:src="@drawable/ic_launcher"
-            android:alpha="0.3"/>
+            android:alpha="0.5"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -59,7 +47,7 @@
 
 
         <LinearLayout
-        android:layout_width="20dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/event_listItem_rightView"
         android:layout_alignParentRight="true"
@@ -71,9 +59,22 @@
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:layout_marginRight="2dp"
+                android:layout_marginLeft="5dp"
                 android:layout_marginTop="18dp"
                 android:id="@+id/imageView_eventOpenImage"
                 android:src="@drawable/ic_action_chevron_right" />
+
+            <CheckBox
+                android:id="@+id/event_listItem_checkbox"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:gravity="center"
+                android:onClick="selectEvent"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="5dp"
+                android:alpha="0.8"
+                android:visibility="gone"/>
 
         </LinearLayout>
 
@@ -115,7 +116,7 @@
             android:id="@+id/event_listItem_scoresView"
             android:layout_alignParentRight="true"
             android:orientation="vertical"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="5dp"
             android:layout_marginLeft="10dp">
             <TextView
                 android:layout_width="wrap_content"

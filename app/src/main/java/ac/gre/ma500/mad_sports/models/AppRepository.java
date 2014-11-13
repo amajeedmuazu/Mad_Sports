@@ -120,13 +120,16 @@ public class AppRepository {
         }
 
     }
-    public boolean DeleteEvent(int id)
+    public boolean DeleteEventsAtIndexes(ArrayList<Integer> indexes)
     {
         try {
-            String where = AppDbDefination.SportEventTable.COLUMN_ID + " LIKE ?";
-            String[] args = {String.valueOf(id)};
 
-            db.delete(AppDbDefination.SportEventTable.TABLE_NAME, where, args);
+            String where = AppDbDefination.SportEventTable.COLUMN_ID + " LIKE ?";
+            for (int i = 0; i < indexes.size(); i++) {
+                String[] args = {_sportEvents.get(indexes.get(i))._id.toString()};
+                db.delete(AppDbDefination.SportEventTable.TABLE_NAME, where, args);
+            }
+
 
             return true;
         }
