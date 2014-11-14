@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -62,6 +63,7 @@ public class EventListActivity extends Activity implements ActionMode.Callback,
         clearSelection();
         this.findViews();
         this.bindViews();
+
     }
 
     private void findViews()
@@ -69,6 +71,10 @@ public class EventListActivity extends Activity implements ActionMode.Callback,
         eventListView = (ListView)findViewById(R.id.listView_events);
         // Set up the action bar to show a dropdown list. final
         actionBar = getActionBar();
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
     }
 
@@ -124,6 +130,7 @@ public class EventListActivity extends Activity implements ActionMode.Callback,
         //SportEvent sp = (SportEvent)v.getTag();
         //sp.isSelected = !sp.isSelected;
         //eventListAdapter.notifyDataSetChanged();
+
     }
 
 
@@ -219,6 +226,7 @@ public class EventListActivity extends Activity implements ActionMode.Callback,
         // Inflate the menu for the CAB
         MenuInflater inflater = mode.getMenuInflater();
         inflater.inflate(R.menu.ctx_menu_event_list, menu);
+        //getWindow().setUiOptions(ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW);
         clearSelection();
         return true;
     }
@@ -227,6 +235,8 @@ public class EventListActivity extends Activity implements ActionMode.Callback,
     public void onDestroyActionMode(ActionMode mode) {
         // Here you can make any necessary updates to the activity when
         // the CAB is removed. By default, selected items are deselected/unchecked.
+        SportEvent.inSelectMode = false;
+        eventListAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -249,10 +259,11 @@ public class EventListActivity extends Activity implements ActionMode.Callback,
                             clearSelection();
                             reloadDataFromFilter();
 
-                            SportEvent.inSelectMode = !SportEvent.inSelectMode;
+                            SportEvent.inSelectMode = false;
                             eventListAdapter.notifyDataSetChanged();
 
                             mode.finish(); // Action picked, so closing the CAB
+
                         }
                     })
                     .setNegativeButton(R.string.alert_response_no, new DialogInterface.OnClickListener() {
@@ -279,7 +290,7 @@ public class EventListActivity extends Activity implements ActionMode.Callback,
     }
 
     private void uploadSelectedItems() {
-        SportEvent.inSelectMode = !SportEvent.inSelectMode;
+        SportEvent.inSelectMode = false;
         eventListAdapter.notifyDataSetChanged();
     }
 }
