@@ -1,8 +1,5 @@
 package ac.gre.ma500.mad_sports.Activities.CustomAdapters;
 
-/**
- * Created by Majeed on 11/11/14.
- */
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +21,7 @@ public class EventList_Adapter extends ArrayAdapter<SportEvent> {
     private final ArrayList<Integer> selectedEvents;
 
     public EventList_Adapter(Activity context, ArrayList<SportEvent> sportEvents, ArrayList<Integer> selectedEvents) {
-        super(context,R.layout.event_listview_item, sportEvents);
+        super(context, R.layout.view_event_listview_item, sportEvents);
         // TODO Auto-generated constructor stub
 
         this.context = context;
@@ -34,7 +31,7 @@ public class EventList_Adapter extends ArrayAdapter<SportEvent> {
 
     public View getView(int position,View view,ViewGroup parent) {
         LayoutInflater inflater=context.getLayoutInflater();
-        View rowView=inflater.inflate(R.layout.event_listview_item, null,true);
+        View rowView = inflater.inflate(R.layout.view_event_listview_item, null, true);
 
         SportEvent sp = sportEvents.get(position);
 
@@ -93,6 +90,6 @@ public class EventList_Adapter extends ArrayAdapter<SportEvent> {
 
         return rowView;
 
-    };
+    }
 }
 

@@ -26,7 +26,7 @@ import ac.gre.ma500.mad_sports.models.SportEvent;
 
 //import android.widget
 
-public class EventListActivity extends Activity implements ActionMode.Callback,
+public class MainEventListActivity extends Activity implements ActionMode.Callback,
         AbsListView.MultiChoiceModeListener, ActionBar.OnNavigationListener{
 
 
@@ -55,7 +55,7 @@ public class EventListActivity extends Activity implements ActionMode.Callback,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_event_list);
+        setContentView(R.layout.activity_main_event_list);
 
         repo = new AppRepository(this);
         repo.LoadData();
@@ -92,7 +92,7 @@ public class EventListActivity extends Activity implements ActionMode.Callback,
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         ArrayAdapter<String> actionBarFilterAdapter = new ArrayAdapter<String>(getBaseContext(),
-                R.layout.navigation_spinner_layout,R.id.navigation_title, AppDbDefination.SPORTS_TYPE_FILTER);
+                R.layout.view_navigation_spinner_list_item, R.id.navigation_title, AppDbDefination.SPORTS_TYPE_FILTER);
 
         actionBar.setListNavigationCallbacks(actionBarFilterAdapter, this);
 

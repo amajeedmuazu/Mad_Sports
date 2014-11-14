@@ -6,7 +6,7 @@
     android:paddingTop="0dp"
     android:paddingBottom="0dp"
     android:background="#0A0A0A"
-    tools:context="ac.gre.ma500.mad_sports.Activities.EventListActivity">
+    tools:context="ac.gre.ma500.mad_sports.Activities.MainEventListActivity">
 
 
     <ScrollView

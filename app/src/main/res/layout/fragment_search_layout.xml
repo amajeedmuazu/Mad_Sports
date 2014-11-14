@@ -1,0 +1,128 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:choiceMode="singleChoice"
+    android:divider="@android:color/transparent"
+    android:dividerHeight="0dp"
+    android:background="#222"
+    tools:context="ac.gre.ma500.mad_sports.SearchDrawerFragment">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/scrollView">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/label_newevent_enterSportType"
+                android:layout_marginTop="10dp" />
+
+            <Spinner
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/sports_type_selector"
+                android:focusable="true" />
+
+            <ExpandableListView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/expandableListView" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/label_newevent_enterDateTime"
+                android:layout_marginTop="25dp" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:layout_width="0dip"
+                    android:layout_weight="7"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:id="@+id/event_date_entry"
+                    android:clickable="true"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:hint="@string/hint_newevent_enterDate"
+                    android:onClick="showEventDatePicker" />
+
+                <EditText
+                    android:layout_width="0dip"
+                    android:layout_weight="6"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:id="@+id/event_time_entry"
+                    android:clickable="true"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:hint="@string/hint_newevent_enterTime"
+                    android:onClick="showEventTimePicker" />
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/label_newevent_enterHomeTeam"
+                android:layout_marginTop="25dp" />
+
+            <AutoCompleteTextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text|textCapWords"
+                android:id="@+id/team_home_entry" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/label_newevent_enterAwayTeam"
+                android:layout_marginTop="25dp" />
+
+            <AutoCompleteTextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text|textCapWords"
+                android:id="@+id/team_away_entry" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/label_newevent_enterlocation"
+                android:layout_marginTop="25dp" />
+
+            <AutoCompleteTextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text|textCapWords"
+                android:id="@+id/location_entry" />
+
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="10dip" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>
+
