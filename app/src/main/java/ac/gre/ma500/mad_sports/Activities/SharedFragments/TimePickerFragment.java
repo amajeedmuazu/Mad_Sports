@@ -3,24 +3,26 @@ package ac.gre.ma500.mad_sports.Activities.SharedFragments;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * Created by Majeed on 02/11/14.
- */
-public class TimePickerFragment extends DialogFragment {
 
-    public TimePickerFragment()
-    {
+public class TimePickerFragment extends DialogFragment implements DialogInterface.OnDismissListener {
+
+    public TimePickerFragment() {
         // Use the current time as the default values for the picker
         setTime(Calendar.getInstance().getTime());
     }
 
+    public int reference;
+
     TimePickerDialog.OnTimeSetListener onTimeSet;
+    public DialogCancelledHandler cancelledHandler;
+
     public void setCallBack(TimePickerDialog.OnTimeSetListener onTime) {
         onTimeSet = onTime;
     }
@@ -35,7 +37,6 @@ public class TimePickerFragment extends DialogFragment {
     }
 
 
-
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Create a new instance of TimePickerDialog and return it
@@ -43,8 +44,14 @@ public class TimePickerFragment extends DialogFragment {
         TimePickerDialog dialog = new TimePickerDialog(getActivity(), onTimeSet, hour, minute,
                 DateFormat.is24HourFormat(getActivity()));
         dialog.setTitle("Set Time in GMT");
-
-        return  dialog;
+        dialog.setButton(TimePickerDialog.BUTTON_NEGATIVE, "Any Time", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (cancelledHandler != null)
+                    cancelledHandler.onDialogCancelled(reference);
+            }
+        });
+        return dialog;
 
     }
 

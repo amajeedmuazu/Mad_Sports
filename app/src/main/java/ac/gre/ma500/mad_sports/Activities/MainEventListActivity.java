@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,26 +14,30 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AbsListView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 
 import ac.gre.ma500.mad_sports.Activities.CustomAdapters.EventList_Adapter;
+import ac.gre.ma500.mad_sports.Activities.SharedFragments.SelectMultipleDialogFragment;
 import ac.gre.ma500.mad_sports.R;
 import ac.gre.ma500.mad_sports.models.AppDbDefination;
 import ac.gre.ma500.mad_sports.models.AppRepository;
+import ac.gre.ma500.mad_sports.models.SearchModel;
 import ac.gre.ma500.mad_sports.models.SportEvent;
 
 //import android.widget
 
 public class MainEventListActivity extends Activity implements ActionMode.Callback,
-        AbsListView.MultiChoiceModeListener, ActionBar.OnNavigationListener{
+        AbsListView.MultiChoiceModeListener, ActionBar.OnNavigationListener,
+        SearchDrawerFragment.SearchDrawerCallbacks,
+        SelectMultipleDialogFragment.multiChoiceListDialogListener {
 
 
     //PROPERTIES-----------------------------------
 
     private AppRepository repo;
+    private SearchModel searchModel;
     ArrayList<Integer> selectedEvents;
     private void clearSelection()
     {
@@ -42,13 +47,16 @@ public class MainEventListActivity extends Activity implements ActionMode.Callba
             selectedEvents.clear();
     }
     public int currentFilterIndex;
+
+    private CharSequence mTitle;
     //End PROPERTIES-------------------------------
 
     //VIEWS----------------------------------------
     ActionBar actionBar;
     ListView eventListView;
     EventList_Adapter eventListAdapter;
-    //DrawerLayout drawer;
+    private SearchDrawerFragment mSearchDrawerFragment;
+
     //End VIEWS------------------------------------
 
 
@@ -58,9 +66,10 @@ public class MainEventListActivity extends Activity implements ActionMode.Callba
         setContentView(R.layout.activity_main_event_list);
 
         repo = new AppRepository(this);
-        repo.LoadData();
-
+        searchModel = new SearchModel();
+        repo.loadDataForSearchModel(null);
         clearSelection();
+
         this.findViews();
         this.bindViews();
 
@@ -72,9 +81,22 @@ public class MainEventListActivity extends Activity implements ActionMode.Callba
         // Set up the action bar to show a dropdown list. final
         actionBar = getActionBar();
 
+
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+
+        mSearchDrawerFragment = (SearchDrawerFragment)
+                getFragmentManager().findFragmentById(R.id.navigation_drawer);
+        mTitle = getTitle();
+
+        //Set up the drawer.
+        mSearchDrawerFragment.setUp(
+                R.id.navigation_drawer,
+                (DrawerLayout) findViewById(R.id.drawer_layout));
+
+
 
     }
 
@@ -88,13 +110,12 @@ public class MainEventListActivity extends Activity implements ActionMode.Callba
         eventListView.setMultiChoiceModeListener(this);
 
 
+        //actionBar.setDisplayShowTitleEnabled(false);
+        //actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+        //ArrayAdapter<String> actionBarFilterAdapter = new ArrayAdapter<String>(getBaseContext(),
+        //        R.layout.view_navigation_spinner_list_item, R.id.navigation_title, AppDbDefination.SPORTS_TYPE_FILTER);
 
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        ArrayAdapter<String> actionBarFilterAdapter = new ArrayAdapter<String>(getBaseContext(),
-                R.layout.view_navigation_spinner_list_item, R.id.navigation_title, AppDbDefination.SPORTS_TYPE_FILTER);
-
-        actionBar.setListNavigationCallbacks(actionBarFilterAdapter, this);
+        //actionBar.setListNavigationCallbacks(actionBarFilterAdapter, this);
 
 
 
@@ -110,14 +131,16 @@ public class MainEventListActivity extends Activity implements ActionMode.Callba
     }
 
     private void reloadDataFromFilter() {
-        if(currentFilterIndex == 0)
-            repo.LoadData();
-        else
-            repo.loadEventsWithSportsNameFilter(new String[]{
-                    AppDbDefination.SPORTS_TYPE_FILTER[currentFilterIndex]});
+        searchModel.clear();
+        if (currentFilterIndex > 0)
+            searchModel.sportNames = new String[]{
+                    AppDbDefination.SPORTS_TYPE_FILTER[currentFilterIndex]};
+
+        repo.loadDataForSearchModel(searchModel);
 
         eventListAdapter.notifyDataSetChanged();
     }
+
 
     public void selectEvent(View v)
     {
@@ -134,15 +157,40 @@ public class MainEventListActivity extends Activity implements ActionMode.Callba
     }
 
 
+    @Override
+    public void onSearchModelSelected(SearchModel sm) {
+        //Todo: Reload view with sm
+        repo.loadDataForSearchModel(sm);
+        eventListAdapter.notifyDataSetChanged();
 
+        setTitleForSearchModel();
+        restoreActionBar();
+    }
 
+    public void setTitleForSearchModel() {
+        //TODO: Set title depending on search criteria
+        mTitle = "Sport Events";
+    }
+
+    public void restoreActionBar() {
+        ActionBar actionBar = getActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setTitle(mTitle);
+        //actionBar.setSubtitle("In Location");
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-
-        getMenuInflater().inflate(R.menu.menu_event_list, menu);
-        //menu.add("New Event");
+        if (mSearchDrawerFragment.isDrawerOpen()) {
+            getMenuInflater().inflate(R.menu.menu_search_drawer, menu);
+            restoreActionBar();
+            return true;
+        } else {
+            getMenuInflater().inflate(R.menu.menu_event_list, menu);
+            restoreActionBar();
+        }
         return true;
     }
 
@@ -153,10 +201,6 @@ public class MainEventListActivity extends Activity implements ActionMode.Callba
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         if(item.getTitle().toString().equalsIgnoreCase("Add Event"))
         {
@@ -166,12 +210,6 @@ public class MainEventListActivity extends Activity implements ActionMode.Callba
             return true;
         }
 
-        else if(item.getTitle().toString().equalsIgnoreCase("Search"))
-        {
-           SportEvent.inSelectMode = !SportEvent.inSelectMode;
-            eventListAdapter.notifyDataSetChanged();
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -292,5 +330,21 @@ public class MainEventListActivity extends Activity implements ActionMode.Callba
     private void uploadSelectedItems() {
         SportEvent.inSelectMode = false;
         eventListAdapter.notifyDataSetChanged();
+    }
+
+
+    public void onSearchDrawerViewClicked(View v) {
+        mSearchDrawerFragment.onEntryViewClicked(v);
+    }
+
+
+    @Override
+    public void onMultiChoiceDone(int reference, String[] arrayList) {
+        mSearchDrawerFragment.onMultiChoiceDone(reference, arrayList);
+    }
+
+    @Override
+    public void onMultiChoiceCancel(int reference) {
+        mSearchDrawerFragment.onMultiChoiceCancel(reference);
     }
 }

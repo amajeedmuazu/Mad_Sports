@@ -4,6 +4,7 @@
     <string name="app_name">MAD Sports</string>
     <string name="action_settings">Settings</string>
     <string name="action_search">Search</string>
+    <string name="action_apply_search">Apply</string>
     <string name="action_select_all">Select All</string>
     <string name="action_add_event">Add Event</string>
     <string name="action_add_event_action">Add Action</string>
@@ -15,6 +16,8 @@
 
     <string name="alert_response_yes">Yes</string>
     <string name="alert_response_no">No</string>
+    <string name="alert_response_done">Done</string>
+    <string name="alert_response_clear">Any</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -56,9 +59,15 @@
     <!-- End : New Event Activity Strings -->
 
     <string name="title_activity_event_list">EventListActivity</string>
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
-    <string name="hello_world">Hello world!</string>
+
+
+    <!-- Search drawer Strings -->
+    <string name="label_drawer_filter_section_title">Filter :</string>
+    <string name="label_search_enterSportType"></string>
+    <string name="label_drawer_set_dates_title">Happens between (Dates) :</string>
+    <string name="label_drawer_set_time_title">Starts After (Time):</string>
+    <string name="label_drawer_set_location_title">Location :</string>
+    <string name="label_drawer_set_teams_title">Involves (Team) :</string>
+
 
 </resources>

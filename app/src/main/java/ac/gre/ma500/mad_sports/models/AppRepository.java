@@ -8,6 +8,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -58,7 +59,140 @@ public class AppRepository {
         }
     }
 
-    public void loadEventsWithSportsNameFilter(String[] sportNames)
+    private static final String OPEN = "( ";
+    private static final String CLOSE = " )";
+    private static final String OR = " OR ";
+    private static final String AND = " AND ";
+    private static final String LIKE = " LIKE ? ";
+    private static final String EQUALS = " = ? ";
+    private static final String GREATER_OR_EQUAL = " >= ? ";
+    private static final String LESSER_OR_EQUAL = " <= ? ";
+
+    public void loadDataForSearchModel(SearchModel sm) {
+
+        this._sportEvents.clear();
+        Cursor sportEventsCursor = null;
+        if (sm != null) {
+            ArrayList<String> args = new ArrayList<String>();
+            String whereClause = OPEN;
+
+            //Where Sport Names
+            if (sm.sportNames != null && sm.sportNames.length > 0) {
+                whereClause += OPEN;
+                for (int i = 0; i < sm.sportNames.length; i++) {
+
+                    if (!whereClause.endsWith(OPEN))
+                        whereClause += OR;
+
+                    whereClause += AppDbDefination.SportEventTable.COLUMN_SPORT_NAME + LIKE;
+                    args.add(sm.sportNames[i]);
+                }
+                whereClause += CLOSE;
+            }
+
+            //Where Locations
+            if (sm.locations != null && sm.locations.length > 0) {
+                if (whereClause.length() > OPEN.length()) whereClause += AND;
+                whereClause += OPEN;
+                for (int i = 0; i < sm.locations.length; i++) {
+
+                    if (!whereClause.endsWith(OPEN))
+                        whereClause += OR;
+
+                    whereClause += AppDbDefination.SportEventTable.COLUMN_LOCATION + LIKE;
+                    args.add(sm.locations[i]);
+                }
+                whereClause += CLOSE;
+            }
+
+            //Where Teams
+            if (sm.teams != null && sm.locations.length > 0) {
+                if (whereClause.length() > OPEN.length()) whereClause += AND;
+                whereClause += OPEN;
+                for (int i = 0; i < sm.teams.length; i++) {
+
+                    if (!whereClause.endsWith(OPEN)) {
+                        whereClause += OR;
+
+                    }
+
+                    if (sm.teams.length > 1) whereClause += OPEN;
+
+                    whereClause += AppDbDefination.SportEventTable.COLUMN_TEAM_HOME + LIKE;
+                    args.add(sm.teams[i]);
+
+                    whereClause += OR;
+
+                    whereClause += AppDbDefination.SportEventTable.COLUMN_TEAM_AWAY + LIKE;
+                    args.add(sm.teams[i]);
+
+                    if (sm.teams.length > 1) whereClause += CLOSE;
+
+
+                }
+                whereClause += CLOSE;
+            }
+
+            //Where Startdate
+            if (sm.startDate != null) {
+                if (whereClause.length() > OPEN.length()) whereClause += AND;
+
+                whereClause += OPEN;
+                whereClause += AppDbDefination.SportEventTable.COLUMN_START_DATE + GREATER_OR_EQUAL;
+                args.add(sm.startDate.toString());
+                whereClause += CLOSE;
+            }
+
+            if (sm.startTime != null) {
+                if (whereClause.length() > OPEN.length()) whereClause += AND;
+
+                whereClause += OPEN;
+                whereClause += AppDbDefination.SportEventTable.COLUMN_START_TIME + GREATER_OR_EQUAL;
+                args.add(sm.startTime.toString());
+                whereClause += CLOSE;
+            }
+
+            whereClause += CLOSE;
+
+            try {
+
+
+                if (whereClause.length() > OPEN.length() && args.size() > 0) {
+                    String[] whereArgs = new String[args.size()];
+                    args.toArray(whereArgs);
+
+                    sportEventsCursor = db.query(AppDbDefination.SportEventTable.TABLE_NAME,
+                            null, whereClause, whereArgs, null, null, null);
+                } else {
+                    sportEventsCursor = db.query(AppDbDefination.SportEventTable.TABLE_NAME,
+                            null, null, null, null, null, null);
+                }
+
+                if (sportEventsCursor.moveToFirst()) {
+                    while (!sportEventsCursor.isAfterLast()) {
+                        this._sportEvents.add(new SportEvent(getValuesFromCursor(sportEventsCursor)));
+                        sportEventsCursor.moveToNext();
+                    }
+                }
+            } catch (Exception ex) {
+                Log.e("Error", ex.getMessage());
+            }
+        } else {
+            sportEventsCursor = db.query(AppDbDefination.SportEventTable.TABLE_NAME,
+                    null, null, null, null, null, null);
+
+            if (sportEventsCursor.moveToFirst()) {
+                while (!sportEventsCursor.isAfterLast()) {
+                    this._sportEvents.add(new SportEvent(getValuesFromCursor(sportEventsCursor)));
+                    sportEventsCursor.moveToNext();
+                }
+            }
+        }
+
+    }
+
+    //Deprecated
+    /*public void loadEventsWithSportsNameFilter(String[] sportNames)
     {
         this._sportEvents.clear();
 
@@ -82,7 +216,7 @@ public class AppRepository {
                 sportEventsCursor.moveToNext();
             }
         }
-    }
+    }*/
 
     private ContentValues getValuesFromCursor(Cursor c)
     {

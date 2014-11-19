@@ -1,15 +1,15 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppBaseTheme" parent="android:Theme.Holo">
-    </style>
+    <style name="AppBaseTheme" parent="android:Theme.Holo"></style>
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!--item name="android:windowActionBarOverlay">true</item-->
-
         <item name="android:listViewStyle">@style/TransparentListView</item>
         <item name="android:expandableListViewStyle">@style/TransparentExpandableListView</item>
+
+        <item name="android:actionButtonStyle">@style/ActionButtonStyle</item>
 
         <!-- For the resting Spinner style -->
         <item name="android:spinnerItemStyle">
@@ -21,6 +21,11 @@
             @style/spinnerDropDownItemStyle
         </item>
         -->
+    </style>
+
+    <style name="ActionButtonStyle" parent="AppBaseTheme">
+        <item name="android:minWidth">20dip</item>
+        <item name="android:paddingLeft">100dip</item>
     </style>
 
     <style name="TransparentListView" parent="@android:style/Widget.ListView">
@@ -35,6 +40,5 @@
         <item name="android:textSize">20sp</item>
     </style>
 
-    <style name="spinnerDropDownItemStyle">
-    </style>
+    <style name="spinnerDropDownItemStyle"></style>
 </resources>

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ac.gre.ma500.mad_sports" >
+    package="ac.gre.ma500.mad_sports">
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_search"
+        android:icon="@drawable/s_icon"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
             android:name=".Activities.MainEventListActivity"
-            android:label="@string/app_name"
-            android:uiOptions="splitActionBarWhenNarrow">
-        <intent-filter>
+            android:label="@string/app_name">
+            <!--android:uiOptions="splitActionBarWhenNarrow"-->
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -19,8 +19,7 @@
         </activity>
         <activity
             android:name="ac.gre.ma500.mad_sports.Activities.NewEventActivity"
-            android:label="@string/label_newevent_title">
-        </activity>
+            android:label="@string/label_newevent_title"></activity>
 
     </application>
 

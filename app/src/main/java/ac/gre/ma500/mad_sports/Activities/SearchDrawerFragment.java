@@ -2,7 +2,9 @@ package ac.gre.ma500.mad_sports.Activities;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.app.Fragment;
+import android.app.TimePickerDialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -14,8 +16,21 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.TimePicker;
 
+import java.sql.Date;
+import java.sql.Time;
+import java.util.Calendar;
+
+import ac.gre.ma500.mad_sports.Activities.SharedFragments.DatePickerFragment;
+import ac.gre.ma500.mad_sports.Activities.SharedFragments.DialogCancelledHandler;
+import ac.gre.ma500.mad_sports.Activities.SharedFragments.SelectMultipleDialogFragment;
+import ac.gre.ma500.mad_sports.Activities.SharedFragments.TimePickerFragment;
 import ac.gre.ma500.mad_sports.R;
+import ac.gre.ma500.mad_sports.models.AppDbDefination;
+import ac.gre.ma500.mad_sports.models.AppUtility;
 import ac.gre.ma500.mad_sports.models.SearchModel;
 
 /**
@@ -23,7 +38,14 @@ import ac.gre.ma500.mad_sports.models.SearchModel;
  * See the <a href="https://developer.android.com/design/patterns/navigation-drawer.html#Interaction">
  * design guidelines</a> for a complete explanation of the behaviors implemented here.
  */
-public class SearchDrawerFragment extends Fragment {
+public class SearchDrawerFragment extends Fragment implements
+        DialogCancelledHandler {
+
+    //These are used to detect which of the MultiChoice Dialogs returned;
+    public static final int REF_SPORTSTYPES = 1;
+    public static final int REF_LOCATIONS = 2;
+    public static final int REF_TEAMS = 3;
+
 
     //A pointer to the current callbacks instance (the Activity).
     private SearchDrawerCallbacks mCallbacks;
@@ -34,6 +56,12 @@ public class SearchDrawerFragment extends Fragment {
     private DrawerLayout mDrawerLayout;
     private View mFragmentContainerView;
     private View searchView;
+
+    private EditText view_SportType_Entry;
+    private EditText view_StartDate_Entry;
+    private EditText view_StartTime_Entry;
+    private EditText view_Location_Entry;
+    private EditText view_Teams_Entry;
 
     //Search Views ----------------------------------------------
 
@@ -50,7 +78,7 @@ public class SearchDrawerFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         searchModel = new SearchModel();
-        displayResultForModel(searchModel);
+        //displayResultForModel(searchModel);
     }
 
     @Override
@@ -71,6 +99,12 @@ public class SearchDrawerFragment extends Fragment {
 
         //((TextView)rowView.findViewById(R.id.listItem_eventTeamHome))
         //.setText(sp.teamHome);
+
+        view_SportType_Entry = (EditText) searchView.findViewById(R.id.view_search_sports_type);
+        view_StartDate_Entry = (EditText) searchView.findViewById(R.id.view_search_startdate);
+        view_StartTime_Entry = (EditText) searchView.findViewById(R.id.view_search_starttime);
+        view_Location_Entry = (EditText) searchView.findViewById(R.id.view_search_location);
+        view_Teams_Entry = (EditText) searchView.findViewById(R.id.view_search_teams);
 
 
         return searchView;
@@ -180,7 +214,8 @@ public class SearchDrawerFragment extends Fragment {
         // showGlobalContextActionBar, which controls the top-left area of the action bar.
         if (mDrawerLayout != null && isDrawerOpen()) {
             //inflater.inflate(R.menu.global, menu);
-            //showGlobalContextActionBar();
+            showGlobalContextActionBar();
+
         }
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -188,7 +223,14 @@ public class SearchDrawerFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (mDrawerToggle.onOptionsItemSelected(item)) {
+
             return true;
+        }
+
+        if (item.getItemId() == R.id.menu_action_search) {
+            displayResultForModel(this.searchModel);
+
+
         }
 
         //ToDo: Modify Handler
@@ -208,12 +250,166 @@ public class SearchDrawerFragment extends Fragment {
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setTitle(R.string.app_name);
+        actionBar.setTitle("Filter Events");
     }
 
     private ActionBar getActionBar() {
         return getActivity().getActionBar();
     }
+
+    public void onEntryViewClicked(View v) {
+
+        int viewId = v.getId();
+
+        if (viewId == view_SportType_Entry.getId())
+            showSportTypesSelector(v);
+
+        else if (viewId == view_StartDate_Entry.getId())
+            showSearchStartDatePicker(v);
+
+        else if (viewId == view_StartTime_Entry.getId())
+            showSearchStartTimePicker(v);
+
+        else if (viewId == view_Location_Entry.getId())
+            showLocationSelector(v);
+
+        else if (viewId == view_Teams_Entry.getId())
+            showTeamsSelector(v);
+
+        else
+            ;//Do nothing
+    }
+
+
+    public void showSportTypesSelector(View v) {
+        SelectMultipleDialogFragment dialog = new SelectMultipleDialogFragment();
+
+        dialog.setUp(REF_SPORTSTYPES, "Select Sports", AppDbDefination.SPORTS_TYPE
+                , searchModel.sportNames);
+        dialog.show(getFragmentManager(), "MultiChoiceSelector");
+
+    }
+
+    private void showLocationSelector(View v) {
+        SelectMultipleDialogFragment dialog = new SelectMultipleDialogFragment();
+
+        dialog.setUp(REF_LOCATIONS, "Select Locations", AppDbDefination.LOCATIONS_FOOTBALL
+                , searchModel.locations);
+        dialog.show(getFragmentManager(), "MultiChoiceSelector");
+
+    }
+
+    private void showTeamsSelector(View v) {
+
+        SelectMultipleDialogFragment dialog = new SelectMultipleDialogFragment();
+
+        dialog.setUp(REF_TEAMS, "Select Teams", AppDbDefination.TEAMS_NAMES_FOOTBALL
+                , searchModel.teams);
+        dialog.show(getFragmentManager(), "MultiChoiceSelector");
+
+    }
+
+    public void onMultiChoiceDone(int reference, String[] arrayList) {
+        switch (reference) {
+            case REF_SPORTSTYPES:
+                searchModel.sportNames = arrayList;
+                view_SportType_Entry.setText(AppUtility.getDelimitedDescription(
+                        searchModel.sportNames, 25, "Sports"));
+                break;
+
+            case REF_LOCATIONS:
+                searchModel.locations = arrayList;
+                view_Location_Entry.setText(AppUtility.getDelimitedDescription(
+                        searchModel.locations, 25, "Location"));
+                break;
+
+            case REF_TEAMS:
+                searchModel.teams = arrayList;
+                view_Teams_Entry.setText(AppUtility.getDelimitedDescription(
+                        searchModel.teams, 25, "Location"));
+                break;
+
+            default:
+                return;
+        }
+    }
+
+
+    public void onMultiChoiceCancel(int reference) {
+        switch (reference) {
+            case REF_SPORTSTYPES:
+                searchModel.sportNames = null;
+                view_SportType_Entry.setText("");
+                break;
+            case REF_LOCATIONS:
+                searchModel.locations = null;
+                view_Location_Entry.setText("");
+                break;
+            case REF_TEAMS:
+                searchModel.teams = null;
+                view_Teams_Entry.setText("");
+                break;
+            default:
+                return;
+        }
+    }
+
+    public void showSearchStartDatePicker(View v) {
+        //Todo show date picker dialog
+        DatePickerFragment dateFragment = new DatePickerFragment();
+        dateFragment.setDate(searchModel.startDate != null ?
+                searchModel.startDate : AppUtility.getCurrentDate());
+        dateFragment.setCallBack(new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar c = Calendar.getInstance();
+                c.set(year, monthOfYear, dayOfMonth, 0, 0);
+                searchModel.startDate = new Date(c.getTimeInMillis());
+                view_StartDate_Entry.setText("On Date : " +
+                        String.format("%02d / %02d / %d", dayOfMonth, (monthOfYear + 1), year));
+            }
+        });
+
+        dateFragment.reference = 0;
+        dateFragment.cancelledHandler = this;
+        dateFragment.show(getFragmentManager(), "datePicker");
+    }
+
+    public void showSearchStartTimePicker(View v) {
+        //Todo show time picker dialog
+        TimePickerFragment timeFragment = new TimePickerFragment();
+        timeFragment.setTime(searchModel.startTime != null ?
+                searchModel.startTime : AppUtility.getCurrentTime());
+
+        timeFragment.setCallBack(new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+
+                Calendar c = Calendar.getInstance();
+                c.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                c.set(Calendar.MINUTE, minute);
+                searchModel.startTime = new Time(c.getTimeInMillis());
+                view_StartTime_Entry.setText("Start Time : " +
+                        String.format("%02d : %02d ", hourOfDay, minute));
+            }
+        });
+        timeFragment.reference = 1;
+        timeFragment.cancelledHandler = this;
+
+        timeFragment.show(getFragmentManager(), "timePicker");
+    }
+
+    @Override
+    public void onDialogCancelled(int reference) {
+        if (reference == 0) {
+            searchModel.startDate = null;
+            view_StartDate_Entry.setText("");
+        } else if (reference == 1) {
+            searchModel.startTime = null;
+            view_StartTime_Entry.setText("");
+        }
+    }
+
 
     /**
      * Callbacks interface that all activities using this fragment must implement.
@@ -224,4 +420,6 @@ public class SearchDrawerFragment extends Fragment {
          */
         void onSearchModelSelected(SearchModel sm);
     }
+
+
 }
